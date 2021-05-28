@@ -4,10 +4,17 @@ import json
 app = Flask(__name__)
 
 
+def extract_geometry(request):
+    geojson = request.get_json()
+    if geojson:
+        return ogr.CreateGeometryFromJson(json.dumps(geojson))
+    else:
+        raise ValueError("empty json")
+
+
 @app.route("/gml/")
 def to_gml():
-    geojson = json.dumps(request.get_json())
-    geometry = ogr.CreateGeometryFromJson(geojson)
+    geometry = extract_geometry(request)
     if geometry is None:
         return
     return geometry.ExportToGML()
@@ -15,8 +22,7 @@ def to_gml():
 
 @app.route("/kml/")
 def to_kml():
-    geojson = request.get_json()
-    geometry = ogr.CreateGeometryFromJson(geojson)
+    geometry = extract_geometry(request)
     if geometry is None:
         return
     return geometry.ExportToKML()
@@ -24,11 +30,9 @@ def to_kml():
 
 @app.route("/wkt/")
 def to_wkt():
-    geojson = request.get_json()
-    geometry = ogr.CreateGeometryFromJson(geojson)
+    geometry = extract_geometry(request)
     if geometry is None:
         return
-
     return geometry.ExportToWKT()
 
 
