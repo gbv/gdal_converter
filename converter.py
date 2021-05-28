@@ -33,7 +33,7 @@ def to_wkt():
     geometry = extract_geometry(request)
     if geometry is None:
         return
-    return geometry.ExportToWKT()
+    return geometry.ExportToWkt()
 
 
 if __name__ == "__main__":
