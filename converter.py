@@ -20,12 +20,11 @@ def to_kml():
 
 
 @app.route("/wkt/")
-def to_gml():
+def to_wkt():
     geojson = request.get_json()
     geometry = ogr.CreateGeometryFromJson(geojson)
     if geometry:
         return geometry.ExportToWKT()
-
 
 
 if __name__ == "__main__":
