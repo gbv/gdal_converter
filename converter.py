@@ -7,7 +7,8 @@ app = Flask(__name__)
 def to_kml():
     geojson = request.get_json()
     geometry = ogr.CreateGeometryFromJson(geojson)
-    return geometry.ExportToKml
+    if geometry:
+        return geometry.ExportToKml()
 
 
 if __name__ == "__main__":
