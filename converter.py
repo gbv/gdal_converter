@@ -1,15 +1,18 @@
 from flask import Flask, request, render_template
 from osgeo import ogr
 import json
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 
 
 def extract_geometry(request):
-    print("extracting geometry")
+    logging.debug("extracting geometry")
     geojson = request.get_json()
-    print("got", str(geojson))
+    logging.debug("got", str(geojson))
     if geojson:
-        print("OGRING geometry")
+        logging.debug("OGRING geometry")
         return ogr.CreateGeometryFromJson(json.dumps(geojson))
     else:
         raise ValueError("empty json")
@@ -19,7 +22,7 @@ def extract_geometry(request):
 def to_gml():
     geometry = extract_geometry(request)
     if geometry is None:
-        print("No geomtry: ", str(geometry))
+        logging.debug("No geomtry: ", str(geometry))
         return
     return geometry.ExportToGML()
 
