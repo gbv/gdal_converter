@@ -10,7 +10,7 @@ app = Flask(__name__)
 def extract_geometry(request):
     logging.debug("extracting geometry")
     geojson = request.get_json()
-    logging.debug("got", str(geojson))
+    logging.debug("got: " + str(geojson))
     if geojson:
         logging.debug("OGRING geometry")
         return ogr.CreateGeometryFromJson(json.dumps(geojson))
@@ -22,7 +22,7 @@ def extract_geometry(request):
 def to_gml():
     geometry = extract_geometry(request)
     if geometry is None:
-        logging.debug("No geomtry: ", str(geometry))
+        logging.debug("No geomtry: " + str(geometry))
         return
     return geometry.ExportToGML()
 
