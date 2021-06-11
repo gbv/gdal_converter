@@ -24,7 +24,7 @@ def to_gml():
     if geometry is None:
         logging.debug("No geomtry: " + str(geometry))
         return
-    return geometry.ExportToGML()
+    return geometry.ExportToGML(options = ['NAMESPACE_DECL=YES'])
 
 
 @app.route("/kml/")
